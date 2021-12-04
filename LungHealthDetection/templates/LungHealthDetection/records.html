@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lung Health Detection</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+	<style>
+		body{
+			background-color: #7ABECC;
+		}
+		a{
+			color: white;
+		}
+		td{
+			padding-left: 10px;
+			padding-right: 10px ;
+			padding-top: 0px;
+			padding-bottom: 15px;
+		}
+		.delete_btn {
+			width: 100%;
+			background: #ff0000 !important;
+			color: white !important;
+		}
+		.delete_btn:hover {
+			width: 100%;
+			background: white !important;
+			color: #ff0000 !important;
+		}
+	</style>
+</head>
+<body>
+	{%  include 'LungHealthDetection/navbar.html' %}
+	<br />
+	<div class="container-fluid">
+        <div class="paragraph" style="text-align: center;"><h1>Records</h1></div>
+	{% block content %}
+	<br />
+		{% if records %}
+			<table align="center" border="1">
+				<tr style="text-align: center; background-color: black; color: white;">
+					<th>Id</th>
+					<!-- <th>Username</th>
+					<th>userid</th> -->
+					<th>Images</th>
+					<th>Date</th>
+					<th>Data</th>
+					<th>Delete</th>
+				</tr>
+				{% for record in records %}
+					{% if request.user == record.userid %}
+						<tr style="text-align: center; background-color: rgba(0, 0, 0, 0.535); color: white;">
+							<td>{{ record.id }}</td>
+							<td><a href= "{{ record.photo.url }}" >{{record.photo}}</a></td>
+							<td>{{ record.date }}</td>
+							<td>{{ record.data }}</td>
+							<td><div class="d-flex justify-content-center mt-3 login_container">
+								<a href="{% url 'record_del' pk=record.id %}" class="btn delete_btn">Delete Record</a>
+							</div></td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</table>
+			
+			<br /><br /><br />
+
+		{% else %}
+			<h1>No Data</h1>
+		{% endif %}
+		
+
+	{% endblock %}
+    </div>
+	
+	
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</html>
